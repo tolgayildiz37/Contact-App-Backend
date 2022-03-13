@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\AddContactInfo\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Contacts.Domain\Contacts.Domain.csproj" />
   </ItemGroup>
 

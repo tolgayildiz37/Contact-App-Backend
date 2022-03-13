@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Contacts.Application.Queries;
+using Contacts.Application.Queries.GetAllContacts;
 using Contacts.Application.Responses;
 using Contacts.Domain.Repositories.Abstract;
 using MediatR;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

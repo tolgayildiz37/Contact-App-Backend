@@ -86,6 +86,12 @@ namespace Contacts.Infrastructure.Repositories
 
         public async Task<bool> Update(Contact entity)
         {
+            var oldEntity = await Get(x => x.Id.Equals(entity.Id));
+            if(oldEntity != null)
+            {
+                entity.CreatedTime = oldEntity.CreatedTime;
+                entity.UpdatedTime = DateTime.Now;
+            }
             var result = await _context.Contacts.ReplaceOneAsync(filter: q => q.Id.Equals(entity.Id), replacement: entity);
             return result.IsAcknowledged && result.MatchedCount > 0;
         }

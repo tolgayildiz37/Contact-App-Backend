@@ -9,8 +9,8 @@ namespace Contacts.Domain.Entities.Abstract
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public virtual string Id { get; protected set; }
-        public DateTime CreatedTime { get; protected set; }
-        public DateTime UpdatedTime { get; protected set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
 
         public Entity()
         {
