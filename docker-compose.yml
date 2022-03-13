@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  contactdb:
+    image: mongo
+  
+  contacts:
+    image: ${DOCKER_REGISTRY-}contacts
+    build:
+      context: .
+      dockerfile: Contacts/Dockerfile
