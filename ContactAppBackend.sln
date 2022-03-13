@@ -3,9 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1629315A-E115-49D7-86FD-4141B79D25DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{C9DB7122-0180-4201-B11F-C6FE85EDD904}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{967B2A71-43BD-46EE-B56B-3FFBDA50E86C}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C9DB7122-0180-4201-B11F-C6FE85EDD904} = {1629315A-E115-49D7-86FD-4141B79D25DE}
+		{967B2A71-43BD-46EE-B56B-3FFBDA50E86C} = {1629315A-E115-49D7-86FD-4141B79D25DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B813EB3-14E4-4565-B119-9DE631329969}
