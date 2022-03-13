@@ -18,9 +18,10 @@ namespace Contacts.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task Add(Contact entity)
+        public async Task<Contact> Add(Contact entity)
         {
             await _context.Contacts.InsertOneAsync(entity);
+            return entity;
         }
 
         public async Task<bool> AddInformation(Contact entity)

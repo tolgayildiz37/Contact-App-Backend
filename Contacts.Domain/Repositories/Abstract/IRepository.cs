@@ -10,7 +10,7 @@ namespace Contacts.Domain.Repositories.Abstract
     {
         Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> filter = null);
         Task<T> Get(Expression<Func<T, bool>> filter);
-        Task Add(T entity);
+        Task<T> Add(T entity);
         Task<bool> Update(T entity);
         Task<bool> Delete(T entity);
     }
