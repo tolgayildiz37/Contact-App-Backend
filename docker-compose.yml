@@ -12,3 +12,10 @@ services:
     build:
       context: .
       dockerfile: Contacts/Dockerfile
+
+  reports:
+    image: ${DOCKER_REGISTRY-}reports
+    build:
+      context: .
+      dockerfile: Reports/Dockerfile
+

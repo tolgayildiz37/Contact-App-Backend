@@ -6,10 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="Constants\" />
-    <Folder Include="Handlers\" />
-    <Folder Include="Responses\" />
-    <Folder Include="Queries\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +15,10 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.1" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Reports.Domain\Reports.Domain.csproj" />
   </ItemGroup>
 
 </Project>

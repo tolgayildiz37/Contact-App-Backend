@@ -10,7 +10,7 @@ services:
       - "27017:27017" 
 
   rabbitmq:
-    container_name: contactrabbitmq
+    container_name: rabbitmq
     restart: always
     ports:
       - "5672:5672"
@@ -28,3 +28,18 @@ services:
     volumes:
       - ${HOME}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+
+  reports:
+    container_name: reportservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ReportDatabaseSettings:ConnectionString=mongodb://contactdb:27017"
+    depends_on:
+      - contactdb
+      - rabbitmq
+    ports:
+      - "8001:80"
+    volumes:
+      - ${HOME}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+
