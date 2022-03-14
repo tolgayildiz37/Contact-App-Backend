@@ -11,15 +11,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{96
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ContactService", "ContactService", "{BF6C207B-6076-4073-9EF4-97BA057F549F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts", "Contacts\Contacts.csproj", "{544A6624-C97D-4653-958A-7A6A759B6132}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contacts", "Contacts\Contacts.csproj", "{544A6624-C97D-4653-958A-7A6A759B6132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Domain", "Contacts.Domain\Contacts.Domain.csproj", "{C890D9D7-F237-4B74-A4B7-4EDCD886E708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contacts.Domain", "Contacts.Domain\Contacts.Domain.csproj", "{C890D9D7-F237-4B74-A4B7-4EDCD886E708}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Application", "Contacts.Application\Contacts.Application.csproj", "{D57ECD29-B52F-4019-B5C9-E938A05AFB54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contacts.Application", "Contacts.Application\Contacts.Application.csproj", "{D57ECD29-B52F-4019-B5C9-E938A05AFB54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Infrastructure", "Contacts.Infrastructure\Contacts.Infrastructure.csproj", "{5A1A9219-D4DC-46DA-BF20-790D5A830735}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contacts.Infrastructure", "Contacts.Infrastructure\Contacts.Infrastructure.csproj", "{5A1A9219-D4DC-46DA-BF20-790D5A830735}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2331A3FD-5A01-40A9-8116-0AF2FBF0A24A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{309019AB-46D3-407B-9F61-9083970F71C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBusRabbitMQ", "EventBusRabbitMQ\EventBusRabbitMQ.csproj", "{40CD2E81-5827-4213-BB9F-E3639C0BA734}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,10 @@ Global
 		{2331A3FD-5A01-40A9-8116-0AF2FBF0A24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2331A3FD-5A01-40A9-8116-0AF2FBF0A24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2331A3FD-5A01-40A9-8116-0AF2FBF0A24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40CD2E81-5827-4213-BB9F-E3639C0BA734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40CD2E81-5827-4213-BB9F-E3639C0BA734}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40CD2E81-5827-4213-BB9F-E3639C0BA734}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40CD2E81-5827-4213-BB9F-E3639C0BA734}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +67,8 @@ Global
 		{C890D9D7-F237-4B74-A4B7-4EDCD886E708} = {BF6C207B-6076-4073-9EF4-97BA057F549F}
 		{D57ECD29-B52F-4019-B5C9-E938A05AFB54} = {BF6C207B-6076-4073-9EF4-97BA057F549F}
 		{5A1A9219-D4DC-46DA-BF20-790D5A830735} = {BF6C207B-6076-4073-9EF4-97BA057F549F}
+		{309019AB-46D3-407B-9F61-9083970F71C6} = {967B2A71-43BD-46EE-B56B-3FFBDA50E86C}
+		{40CD2E81-5827-4213-BB9F-E3639C0BA734} = {309019AB-46D3-407B-9F61-9083970F71C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B813EB3-14E4-4565-B119-9DE631329969}
