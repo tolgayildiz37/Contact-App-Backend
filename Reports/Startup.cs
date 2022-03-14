@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Reports.Infrastructure;
+using Reports.Infrastructure.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +26,12 @@ namespace Reports
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+
+            #region Add Infrasucture Middleware
+            services.Configure<ReportDbSettings>(Configuration.GetSection(nameof(ReportDbSettings)));
+            services.AddInfrastructure(Configuration);
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
