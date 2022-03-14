@@ -1,0 +1,103 @@
+{
+  "Routes": [
+    //ContactAPI
+    {
+      "DownstreamPathTemplate": "/api/v1/Contact",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "contactservice",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Contact",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Product/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "contactservice",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Product/{id}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Contact/RequestReport",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "contactservice",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Contact/RequestReport",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Contact/AddContactInformation",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "contactservice",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Contact/AddContactInformation",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Contact/DeleteContactInfo",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "contactservice",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Contact/DeleteContactInfo",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Contact/DeleteAllContactInfo/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "contactservice",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Contact/DeleteAllContactInfo/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+
+    // Report API
+    {
+      "DownstreamPathTemplate": "/api/v1/Report",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reportservice",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Report",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/Report/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reportservice",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Report/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
+  ]
+}
