@@ -23,6 +23,7 @@ services:
       - "ContactDatabaseSettings:ConnectionString=mongodb://contactdb:27017"
     depends_on:
       - contactdb
+      - rabbitmq
     ports:
       - "8000:80"
     volumes:

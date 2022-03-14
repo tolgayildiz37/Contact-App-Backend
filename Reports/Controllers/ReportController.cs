@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Contacts.Application.Constants;
-using EventBusRabbitMQ.Constants;
-using EventBusRabbitMQ.Events;
 using EventBusRabbitMQ.Producers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Reports.Application.Queries.GetAllReports;
 using Reports.Application.Queries.GetReportById;
-using Reports.Application.Queries.RequestReport;
 using Reports.Application.Responses;
 using System;
 using System.Collections.Generic;
@@ -72,28 +69,6 @@ namespace Reports.Controllers
             }
 
             return Ok(report);
-        }
-
-        [HttpGet("RequestReport")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> AddReport()
-        {
-            var query = new RequestReportQuery();
-            var report = await _mediator.Send(query);
-
-            var eventMessage = _mapper.Map<RequestReportEvent>(report);
-
-            try
-            {
-                _eventBus.Publish(EventBusConstants.RequestReportQueue, eventMessage);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "ERROR Publishing integration event: {EventId} from {AppName}", eventMessage.Id, "Report API");
-                throw;
-            }
-
-            return Accepted();
         }
     }
 }

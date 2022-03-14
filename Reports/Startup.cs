@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
 using Reports.Application;
+using Reports.Consumers;
+using Reports.Extensions;
 using Reports.Infrastructure;
 using Reports.Infrastructure.Constants;
 using Reports.Infrastructure.Settings;
@@ -74,7 +76,7 @@ namespace Reports
                 return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
             });
 
-            services.AddSingleton<EventBusRabbitMQProducer>();
+            services.AddSingleton<RequestReportQueueConsumer>();
             #endregion
         }
 
@@ -94,6 +96,10 @@ namespace Reports
             {
                 endpoints.MapControllers();
             });
+
+            #region "EventBus Dependencies"
+            app.UseRabbitMQListener();
+            #endregion
 
             #region Swagger Dependencies
             app.UseSwagger();

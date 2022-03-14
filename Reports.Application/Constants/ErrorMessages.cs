@@ -11,6 +11,7 @@
         public const string UPDATE_ERROR = "An error occurred while updating data!";
         public const string DELETE_ERROR = "An error occurred while deleting data!";
 
-        public const string REPORT_CREATE_ERROR = "An error occurred while creating new report!";
+
+        public const string REPORT_SAVE_ERROR = "An error occurred while saving report!";
     }
 }

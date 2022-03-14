@@ -1,12 +1,12 @@
 ﻿using EventBusRabbitMQ.Events.Abstract;
 using System;
+using System.Collections.Generic;
 
 namespace EventBusRabbitMQ.Events
 {
     public class RequestReportEvent : IEvent
     {
-        public string Id { get; set; }
         public int Status { get; set; }
-        public DateTime ReportCreateTime { get; set; }
+        public List<ReportDataEvent> ReportDatas { get; set; }
     }
 }

@@ -1,12 +1,18 @@
-﻿using Contacts.Application.Commands.AddContact;
+﻿using AutoMapper;
+using Contacts.Application.Commands.AddContact;
 using Contacts.Application.Commands.AddContactInfo;
-using Contacts.Application.Commands.DeleteContact;
 using Contacts.Application.Commands.DeleteAllContactInfo;
+using Contacts.Application.Commands.DeleteContact;
+using Contacts.Application.Commands.DeleteContactInfo;
 using Contacts.Application.Commands.UpdateContact;
 using Contacts.Application.Constants;
 using Contacts.Application.Queries.GetAllContacts;
 using Contacts.Application.Queries.GetContactById;
+using Contacts.Application.Queries.RequestReport;
 using Contacts.Application.Responses;
+using EventBusRabbitMQ.Constants;
+using EventBusRabbitMQ.Events;
+using EventBusRabbitMQ.Producers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Contacts.Application.Commands.DeleteContactInfo;
 
 namespace Contacts.Controllers
 {
@@ -23,13 +28,21 @@ namespace Contacts.Controllers
     [Route("api/v1/[controller]")]
     public class ContactController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly ILogger<ContactController> _logger;
+        private readonly EventBusRabbitMQProducer _eventBus;
 
-        public ContactController(IMediator mediator, ILogger<ContactController> logger)
+        public ContactController(
+            IMapper mapper,
+            IMediator mediator, 
+            ILogger<ContactController> logger,
+            EventBusRabbitMQProducer eventBus)
         {
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
         [HttpGet]
@@ -65,6 +78,29 @@ namespace Contacts.Controllers
             }
 
             return Ok(contact);
+        }
+
+        [HttpGet("RequestReport")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> AddReport()
+        {
+            var query = new RequestReportQuery();
+
+            var response = await _mediator.Send(query);
+
+            var eventMessage = _mapper.Map<RequestReportEvent>(response);
+
+            try
+            {
+                _eventBus.Publish(EventBusConstants.RequestReportQueue, eventMessage);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ERROR Publishing integration event: {EventId} from {AppName}", eventMessage.RequestId, "Contact API");
+                throw;
+            }
+
+            return Accepted();
         }
 
         [HttpPost]

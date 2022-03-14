@@ -16,5 +16,7 @@ namespace Contacts.Application.Constants
         public const string ADD_ERROR = "An error occurred while adding data!";
         public const string UPDATE_ERROR = "An error occurred while updating data!";
         public const string DELETE_ERROR = "An error occurred while deleting data!";
+
+        public const string REPORT_CREATE_ERROR = "An error occurred while creating new report!";
     }
 }

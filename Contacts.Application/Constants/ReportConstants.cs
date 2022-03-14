@@ -1,6 +1,6 @@
-﻿namespace Reports.Application.Constants
+﻿namespace Contacts.Application.Constants
 {
-    public class ReportStatusConstants
+    public class ReportConstants
     {
         public enum Status
         {
