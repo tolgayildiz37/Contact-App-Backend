@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
+    <ProjectReference Include="..\Reports.Application\Reports.Application.csproj" />
     <ProjectReference Include="..\Reports.Infrastructure\Reports.Infrastructure.csproj" />
   </ItemGroup>
 

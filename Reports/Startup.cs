@@ -1,16 +1,18 @@
+using EventBusRabbitMQ.Connection;
+using EventBusRabbitMQ.Connection.Abstract;
+using EventBusRabbitMQ.Producers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
+using Reports.Application;
 using Reports.Infrastructure;
+using Reports.Infrastructure.Constants;
 using Reports.Infrastructure.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Reports
 {
@@ -29,8 +31,50 @@ namespace Reports
             services.AddControllers();
 
             #region Add Infrasucture Middleware
-            services.Configure<ReportDbSettings>(Configuration.GetSection(nameof(ReportDbSettings)));
+            services.Configure<ReportDbSettings>(Configuration.GetSection(DbSettingsConstants.DATABASE_CONFIG_NAME));
             services.AddInfrastructure(Configuration);
+            #endregion
+
+            #region Add Application Middleware
+            services.AddAutoMapper(typeof(Startup));
+            services.AddApplication();
+            #endregion
+
+            #region Swagger Dependencies
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Report API", Version = "v1" });
+            });
+            #endregion
+
+            #region EventBus Dependencies
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp => {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+                var factory = new ConnectionFactory()
+                {
+                    HostName = Configuration["EventBus:HostName"]
+                };
+
+                if (!string.IsNullOrWhiteSpace(Configuration["EventBus:UserName"]))
+                {
+                    factory.UserName = Configuration["EventBus:UserName"];
+                }
+
+                if (!string.IsNullOrWhiteSpace(Configuration["EventBus:Password"]))
+                {
+                    factory.Password = Configuration["EventBus:Password"];
+                }
+
+                var retryCount = 5;
+                if (!string.IsNullOrWhiteSpace(Configuration["EventBus:RetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBus:RetryCount"]);
+                }
+
+                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+            });
+
+            services.AddSingleton<EventBusRabbitMQProducer>();
             #endregion
         }
 
@@ -50,6 +94,14 @@ namespace Reports
             {
                 endpoints.MapControllers();
             });
+
+            #region Swagger Dependencies
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Report API V1");
+            }); 
+            #endregion
         }
     }
 }

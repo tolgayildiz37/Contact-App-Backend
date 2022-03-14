@@ -9,6 +9,13 @@ services:
     ports:
       - "27017:27017" 
 
+  rabbitmq:
+    container_name: contactrabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672" 
+
   contacts:
     container_name: contactservice
     environment:
