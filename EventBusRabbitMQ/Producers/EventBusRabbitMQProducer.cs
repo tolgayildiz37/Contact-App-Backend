@@ -57,7 +57,7 @@ namespace EventBusRabbitMQ.Producers
             }
         }
 
-        private void TryConnect()
+        public void TryConnect()
         {
             if (!_persistentConnection.IsConnected)
                 _persistentConnection.TryConnect();

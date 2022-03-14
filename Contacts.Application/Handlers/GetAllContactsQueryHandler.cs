@@ -28,7 +28,7 @@ namespace Contacts.Application.Handlers
 
             var response = _mapper.Map<IEnumerable<ContactResponse>>(contactList);
 
-            return response; ;
+            return response;
         }
     }
 }

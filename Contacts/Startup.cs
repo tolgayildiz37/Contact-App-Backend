@@ -1,12 +1,17 @@
 using Contacts.Application;
 using Contacts.Infrastructure;
 using Contacts.Infrastructure.Settings;
+using EventBusRabbitMQ.Connection;
+using EventBusRabbitMQ.Connection.Abstract;
+using EventBusRabbitMQ.Producers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using System.Linq;
 
 namespace Contacts
@@ -31,7 +36,38 @@ namespace Contacts
             #endregion
 
             #region Add Application Middleware
+            services.AddAutoMapper(typeof(Startup));
             services.AddApplication();
+            #endregion
+
+            #region EventBus Dependencies
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp => {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+                var factory = new ConnectionFactory()
+                {
+                    HostName = Configuration["EventBus:HostName"]
+                };
+
+                if (!string.IsNullOrWhiteSpace(Configuration["EventBus:UserName"]))
+                {
+                    factory.UserName = Configuration["EventBus:UserName"];
+                }
+
+                if (!string.IsNullOrWhiteSpace(Configuration["EventBus:Password"]))
+                {
+                    factory.Password = Configuration["EventBus:Password"];
+                }
+
+                var retryCount = 5;
+                if (!string.IsNullOrWhiteSpace(Configuration["EventBus:RetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBus:RetryCount"]);
+                }
+
+                return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+            });
+
+            services.AddSingleton<EventBusRabbitMQProducer>();
             #endregion
 
             #region Swagger Dependencies

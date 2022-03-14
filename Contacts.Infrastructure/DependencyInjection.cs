@@ -15,7 +15,6 @@ namespace Contacts.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             #region Database Configuration Dependencies
-            //services.Configure<ContactDatabaseSettings>(configuration.GetSection(nameof(ContactDatabaseSettings)));
             services.AddSingleton<IContactDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ContactDatabaseSettings>>().Value);
             #endregion
 

@@ -21,7 +21,10 @@ namespace EventBusRabbitMQ.Connection
         private bool _disposed;
         #endregion
 
-        public DefaultRabbitMQPersistentConnection(IConnectionFactory connectionFactory, int retryCount, ILogger<DefaultRabbitMQPersistentConnection> logger)
+        public DefaultRabbitMQPersistentConnection(
+            IConnectionFactory connectionFactory,
+            ILogger<DefaultRabbitMQPersistentConnection> logger,
+            int retryCount)
         {
             _connectionFactory = connectionFactory;
             _retryCount = retryCount;

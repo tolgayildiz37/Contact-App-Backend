@@ -9,6 +9,13 @@ services:
     ports:
       - "27017:27017" 
 
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672" 
+
   contacts:
     container_name: contactservice
     environment:
@@ -16,8 +23,24 @@ services:
       - "ContactDatabaseSettings:ConnectionString=mongodb://contactdb:27017"
     depends_on:
       - contactdb
+      - rabbitmq
     ports:
       - "8000:80"
     volumes:
       - ${HOME}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+
+  reports:
+    container_name: reportservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ReportDatabaseSettings:ConnectionString=mongodb://contactdb:27017"
+    depends_on:
+      - contactdb
+      - rabbitmq
+    ports:
+      - "8001:80"
+    volumes:
+      - ${HOME}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+
