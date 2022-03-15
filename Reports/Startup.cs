@@ -38,8 +38,8 @@ namespace Reports
             #endregion
 
             #region Add Application Middleware
-            services.AddAutoMapper(typeof(Startup));
             services.AddApplication();
+            services.AddAutoMapper(typeof(Startup));
             #endregion
 
             #region Swagger Dependencies

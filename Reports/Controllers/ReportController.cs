@@ -19,21 +19,15 @@ namespace Reports.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly ILogger<ReportController> _logger;
-        private readonly EventBusRabbitMQProducer _eventBus;
 
         public ReportController(
-            IMapper mapper,
             IMediator mediator, 
-            ILogger<ReportController> logger, 
-            EventBusRabbitMQProducer eventBus)
+            ILogger<ReportController> logger)
         {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
         [HttpGet]

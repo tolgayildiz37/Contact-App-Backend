@@ -12,7 +12,7 @@ namespace Reports.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), ServiceLifetime.Transient);
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             #region Configure Mapper

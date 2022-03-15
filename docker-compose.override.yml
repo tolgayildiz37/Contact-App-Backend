@@ -21,6 +21,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ContactDatabaseSettings:ConnectionString=mongodb://contactdb:27017"
+      - "EventBus:HostName=rabbitmq"
     depends_on:
       - contactdb
       - rabbitmq
@@ -35,6 +36,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ReportDatabaseSettings:ConnectionString=mongodb://contactdb:27017"
+      - "EventBus:HostName=rabbitmq"
     depends_on:
       - contactdb
       - rabbitmq
