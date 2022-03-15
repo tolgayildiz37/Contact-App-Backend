@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  contactdb:
+    image: mongo
+
+  rabbitmq:
+    image: rabbitmq:3-management
+  
+  contacts:
+    image: ${DOCKER_REGISTRY-}contacts
+    build:
+      context: .
+      dockerfile: Contacts/Dockerfile
+
+  reports:
+    image: ${DOCKER_REGISTRY-}reports
+    build:
+      context: .
+      dockerfile: Reports/Dockerfile
+
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: APIGateway/Dockerfile
+
