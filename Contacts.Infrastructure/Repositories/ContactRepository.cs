@@ -1,27 +1,21 @@
 ﻿using Contacts.Domain.Entities;
 using Contacts.Domain.Repositories.Abstract;
 using Contacts.Infrastructure.Data.Abstract;
+using Contacts.Infrastructure.Repositories.Abstract;
+using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Contacts.Infrastructure.Repositories
 {
-    public class ContactRepository : IContactRepository
+    public class ContactRepository : MongoDbRepository<Contact>, IContactRepository
     {
         private readonly IContactContext _context;
 
-        public ContactRepository(IContactContext context)
+        public ContactRepository(IContactContext context) : base(context.Contacts)
         {
             _context = context;
-        }
-
-        public async Task<Contact> Add(Contact entity)
-        {
-            await _context.Contacts.InsertOneAsync(entity);
-            return entity;
         }
 
         public async Task<bool> AddInformation(Contact entity)
@@ -34,14 +28,6 @@ namespace Contacts.Infrastructure.Repositories
                 return await Update(contact);
             }
             return false;
-        }
-
-        public async Task<bool> Delete(Contact entity)
-        {
-            var filter = Builders<Contact>.Filter.Eq(q => q.Id, entity.Id);
-            var result = await _context.Contacts.DeleteOneAsync(filter);
-
-            return result.IsAcknowledged && result.DeletedCount > 0;
         }
 
         public async Task<bool> DeleteInformation(Contact entity)
@@ -72,28 +58,42 @@ namespace Contacts.Infrastructure.Repositories
             return false;
         }
 
-        public async Task<Contact> Get(Expression<Func<Contact, bool>> filter)
+        public async Task<IEnumerable<ReportData>> CreateReport()
         {
-            return await _context.Contacts.Find(filter).FirstOrDefaultAsync();
-        }
+            List<ReportData> result = new List<ReportData>();
+            var addFieldsStage = BsonDocument.Parse("{$addFields:{country:" +
+                "{$arrayElemAt:[{$filter:{input:\"$ContactInformation\",as:\"info\"," +
+                "cond:{$eq:[\"$$info.InfoType\",3]}}},0]}," +
+                "ContactInformation:{$ifNull:[\"$ContactInformation\",[]]}}}");
 
-        public async Task<IEnumerable<Contact>> GetAll(Expression<Func<Contact, bool>> filter = null)
-        {
-            return filter == null ?
-                await _context.Contacts.Find(m => true).ToListAsync() :
-                await _context.Contacts.Find(filter).ToListAsync();
-        }
+            var groupStage = BsonDocument.Parse("{$group:" +
+                "{_id:\"$country.Info\",personCount:{$sum:1}," +
+                "phoneNumberCount:{$sum:{$size:{$filter:{input:\"$ContactInformation\",as:\"info\",cond:{$eq:[\"$$info.InfoType\",1]}}}}}}}");
 
-        public async Task<bool> Update(Contact entity)
-        {
-            var oldEntity = await Get(x => x.Id.Equals(entity.Id));
-            if(oldEntity != null)
+            var pipeline = new BsonDocument[]
             {
-                entity.CreatedTime = oldEntity.CreatedTime;
-                entity.UpdatedTime = DateTime.Now;
+                addFieldsStage,
+                groupStage
+            };
+
+            var queryResult = await _context.Contacts.Aggregate<BsonDocument>(pipeline).ToListAsync();
+            if (queryResult.Count > 0)
+            {
+                foreach (var item in queryResult)
+                {
+                    if (!item.GetValue("_id", "").IsBsonNull)
+                    {
+                        result.Add(new ReportData()
+                        {
+                            Location = item.GetValue("_id", "").ToString(),
+                            PersonCount = item.GetValue("personCount", 0).ToInt32(),
+                            PhoneNumberCount = item.GetValue("phoneNumberCount", 0).ToInt32()
+                        });
+                    }
+                }
             }
-            var result = await _context.Contacts.ReplaceOneAsync(filter: q => q.Id.Equals(entity.Id), replacement: entity);
-            return result.IsAcknowledged && result.MatchedCount > 0;
+
+            return result;
         }
     }
 }

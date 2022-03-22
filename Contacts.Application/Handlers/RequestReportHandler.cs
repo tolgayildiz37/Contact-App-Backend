@@ -5,6 +5,7 @@ using Contacts.Application.Responses;
 using Contacts.Domain.Repositories.Abstract;
 using MediatR;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,14 +24,13 @@ namespace Contacts.Application.Handlers
 
         public async Task<ReportResponse> Handle(RequestReportQuery request, CancellationToken cancellationToken)
         {
-            //Db'den rapor çekilecek
-            var contacts = await _repo.GetAll();
+            var reportDatas = await _repo.CreateReport();
 
             var response = new ReportResponse()
             {
                 Status = (int)ReportConstants.Status.Preparing,
                 CreateTime = DateTime.UtcNow,
-                ReportDatas = null
+                ReportDatas = _mapper.Map<IEnumerable<ReportDataResponse>>(reportDatas)
             };
 
             return response;

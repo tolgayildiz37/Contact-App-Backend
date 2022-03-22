@@ -8,6 +8,7 @@ using Contacts.Application.Commands.DeleteContactInfo;
 using Contacts.Application.Commands.UpdateContact;
 using Contacts.Application.Responses;
 using Contacts.Domain.Entities;
+using System.Collections.Generic;
 
 namespace Contacts.Application.Mappers
 {
@@ -24,6 +25,7 @@ namespace Contacts.Application.Mappers
             CreateMap<Contact, ContactResponse>().ReverseMap();
             CreateMap<ContactInfo, ContactInfoCommand>().ReverseMap();
             CreateMap<ContactInfo, ContactInfoResponse>().ReverseMap();
+            CreateMap<ReportData, ReportDataResponse>().ReverseMap();
         }
     }
 }

@@ -7,6 +7,6 @@ namespace Contacts.Application.Responses
     {
         public DateTime CreateTime { get; set; }
         public int Status { get; set; }
-        public List<ReportDataResponse> ReportDatas { get; set; }
+        public IEnumerable<ReportDataResponse> ReportDatas { get; set; }
     }
 }
