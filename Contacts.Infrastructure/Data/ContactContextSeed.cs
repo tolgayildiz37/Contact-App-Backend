@@ -36,12 +36,12 @@ namespace Contacts.Infrastructure.Data
                         new ContactInfo()
                         {
                             InfoType = (int)ContactInfoTypes.Types.PhoneNumber,
-                            Info = "PhoneNumber1"
+                            Info = "+905554443322"
                         },
                         new ContactInfo()
                         {
                             InfoType = (int)ContactInfoTypes.Types.Location,
-                            Info = "Location1"
+                            Info = "İstanbul"
                         }
                     }
                 },
@@ -55,12 +55,31 @@ namespace Contacts.Infrastructure.Data
                         new ContactInfo()
                         {
                             InfoType = (int)ContactInfoTypes.Types.PhoneNumber,
-                            Info = "PhoneNumber1"
+                            Info = "+905554443301"
                         },
                         new ContactInfo()
                         {
                             InfoType = (int)ContactInfoTypes.Types.PhoneNumber,
-                            Info = "PhoneNumber2"
+                            Info = "+905554443302"
+                        },
+                        new ContactInfo()
+                        {
+                            InfoType = (int)ContactInfoTypes.Types.Location,
+                            Info = "Kastamonu"
+                        }
+                    }
+                },
+                new Contact()
+                {
+                    Name = "Name4",
+                    Surname = "Surname4",
+                    Company = "Company4",
+                    ContactInformation = new List<ContactInfo>()
+                    {
+                        new ContactInfo()
+                        {
+                            InfoType = (int)ContactInfoTypes.Types.Location,
+                            Info = "Kastamonu"
                         }
                     }
                 }
